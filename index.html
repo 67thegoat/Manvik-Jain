@@ -1,40 +1,88 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My First Website</title>
+<title>Mini Game</title>
 
-  <style>
-    body {
-      background: linear-gradient(to right, cyan, blue);
-      font-family: Arial;
-      text-align: center;
-      color: white;
-      margin-top: 100px;
-    }
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  background:black;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+}
 
-    h1 {
-      font-size: 60px;
-    }
+#player{
+  width:50px;
+  height:50px;
+  background:red;
+  position:absolute;
+  top:200px;
+  left:200px;
+}
 
-    button {
-      padding: 15px 30px;
-      border: none;
-      border-radius: 10px;
-      font-size: 20px;
-      cursor: pointer;
-    }
-  </style>
+#coin{
+  width:30px;
+  height:30px;
+  background:gold;
+  border-radius:50%;
+  position:absolute;
+  top:100px;
+  left:100px;
+}
+
+h1{
+  position:fixed;
+  top:10px;
+  left:10px;
+}
+</style>
 </head>
 
 <body>
 
-<h1>Hello World!</h1>
+<h1>Score: <span id="score">0</span></h1>
 
-<p>I built my first website!</p>
+<div id="player"></div>
+<div id="coin"></div>
 
-<button onclick="alert('Welcome to my website!')">
-Click Me
-</button>
+<script>
+let player = document.getElementById("player");
+let coin = document.getElementById("coin");
+let score = 0;
+
+let x = 200;
+let y = 200;
+
+document.addEventListener("keydown",(e)=>{
+
+  if(e.key=="ArrowUp") y-=20;
+  if(e.key=="ArrowDown") y+=20;
+  if(e.key=="ArrowLeft") x-=20;
+  if(e.key=="ArrowRight") x+=20;
+
+  player.style.left = x+"px";
+  player.style.top = y+"px";
+
+  let px = x;
+  let py = y;
+
+  let cx = parseInt(coin.style.left);
+  let cy = parseInt(coin.style.top);
+
+  if(Math.abs(px-cx)<40 && Math.abs(py-cy)<40){
+
+    score++;
+    document.getElementById("score").innerText=score;
+
+    coin.style.left=Math.random()*window.innerWidth+"px";
+    coin.style.top=Math.random()*window.innerHeight+"px";
+  }
+
+});
+</script>
 
 </body>
 </html>
