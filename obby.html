@@ -1,79 +1,108 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Obby Escape</title>
+<title>3D Game</title>
 
 <style>
 body{
   margin:0;
   overflow:hidden;
-  background:#87ceeb;
 }
 
-#player{
-  width:50px;
-  height:50px;
-  background:red;
-  position:absolute;
-  left:50px;
-  top:300px;
-}
-
-.platform{
-  position:absolute;
-  background:black;
-}
-
-#goal{
-  width:60px;
-  height:60px;
-  background:gold;
-  position:absolute;
-  left:700px;
-  top:120px;
+canvas{
+  display:block;
 }
 </style>
 </head>
 
 <body>
 
-<div id="player"></div>
+<script type="module">
 
-<div class="platform"
-style="width:200px;height:20px;left:0px;top:350px;">
-</div>
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.152/build/three.module.js';
 
-<div class="platform"
-style="width:150px;height:20px;left:250px;top:280px;">
-</div>
+const scene = new THREE.Scene();
 
-<div class="platform"
-style="width:150px;height:20px;left:500px;top:200px;">
-</div>
+scene.background = new THREE.Color(0x87ceeb);
 
-<div id="goal"></div>
+const camera = new THREE.PerspectiveCamera(
+75,
+window.innerWidth/window.innerHeight,
+0.1,
+1000
+);
 
-<script>
-let player = document.getElementById("player");
+const renderer = new THREE.WebGLRenderer();
 
-let x = 50;
-let y = 300;
+renderer.setSize(window.innerWidth,window.innerHeight);
 
-document.addEventListener("keydown",(e)=>{
+document.body.appendChild(renderer.domElement);
 
-  if(e.key=="ArrowRight") x+=20;
-  if(e.key=="ArrowLeft") x-=20;
-  if(e.key=="ArrowUp") y-=20;
-  if(e.key=="ArrowDown") y+=20;
+const light = new THREE.DirectionalLight(0xffffff,1);
 
-  player.style.left=x+"px";
-  player.style.top=y+"px";
+light.position.set(5,10,7);
 
-  if(x>650 && y<170){
-    alert("YOU WIN!");
-  }
+scene.add(light);
+
+const floorGeometry = new THREE.BoxGeometry(20,1,20);
+
+const floorMaterial = new THREE.MeshStandardMaterial({
+color:0x00aa00
+});
+
+const floor = new THREE.Mesh(
+floorGeometry,
+floorMaterial
+);
+
+floor.position.y=-1;
+
+scene.add(floor);
+
+const playerGeometry = new THREE.BoxGeometry(1,1,1);
+
+const playerMaterial = new THREE.MeshStandardMaterial({
+color:0xff0000
+});
+
+const player = new THREE.Mesh(
+playerGeometry,
+playerMaterial
+);
+
+scene.add(player);
+
+camera.position.z=5;
+camera.position.y=3;
+
+document.addEventListener('keydown',(e)=>{
+
+  if(e.key=="ArrowUp") player.position.z-=0.3;
+
+  if(e.key=="ArrowDown") player.position.z+=0.3;
+
+  if(e.key=="ArrowLeft") player.position.x-=0.3;
+
+  if(e.key=="ArrowRight") player.position.x+=0.3;
 
 });
+
+function animate(){
+
+  requestAnimationFrame(animate);
+
+  camera.position.x = player.position.x;
+
+  camera.position.z = player.position.z + 5;
+
+  camera.lookAt(player.position);
+
+  renderer.render(scene,camera);
+
+}
+
+animate();
+
 </script>
 
 </body>
