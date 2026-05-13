@@ -1,62 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Games</title>
-
-<style>
-body{
-  background:#121417;
-  color:white;
-  font-family:Arial;
-  text-align:center;
-}
-
-a{
-  color:cyan;
-  text-decoration:none;
-}
-
-.card{
-  background:#1e2329;
-  padding:20px;
-  margin:20px auto;
-  width:300px;
-  border-radius:15px;
-}
-</style>
+  <title>Games</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>Games Page</h1>
+<header>
+  <h1>🎮 Games</h1>
 
-<div class="card">
-  <h2>Obby Escape</h2>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="games.html">Games</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+</header>
 
-  <a href="obby.html">
-  Play Game
-  </a>
-</div>
+<section class="games">
+  <div class="card" onclick="openGame('obby')">🔥 Obby Parkour</div>
+  <div class="card" onclick="openGame('racing')">🏎️ Racing Game</div>
+  <div class="card" onclick="openGame('battle')">⚔️ Battle Arena</div>
+</section>
 
-<br>
-  <script>
-function openGame(game) {
-  if (game === "obby") {
-    alert("Loading Obby Parkour...");
-    window.location.href = "obby.html"; // optional future page
-  }
-
-  if (game === "racing") {
-    alert("Loading Racing Game...");
-  }
-
-  if (game === "battle") {
-    alert("Loading Battle Arena...");
-  }
-}
-</script>
-
-<a href="index.html">Back Home</a>
+<script src="script.js"></script>
 
 </body>
 </html>
