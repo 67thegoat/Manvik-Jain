@@ -17,20 +17,21 @@
   </nav>
 </header>
 
-<section class="hero">
-  <h2>Your Profile</h2>
+<h2 id="name"></h2>
 
-  <p>Name: <span id="name"></span></p>
-
-  <button onclick="editProfile()">Edit Profile</button>
-  <button onclick="resetProfile()">Reset</button>
-</section>
+<button onclick="logout()">Logout</button>
 
 <script src="script.js"></script>
 
 <script>
-document.getElementById("name").innerText =
-  getUsername() || "Guest";
+let user = getUser();
+
+if (!user) {
+  window.location.href = "login.html";
+} else {
+  document.getElementById("name").innerText =
+    "Player: " + user;
+}
 </script>
 
 </body>
