@@ -1,30 +1,41 @@
-function openGame(game) {
-  if (game === "obby") {
-    alert("Loading Obby Parkour...");
-  }
+// ---------- AUTH SYSTEM ----------
+function register() {
+  let user = document.getElementById("user").value;
+  let pass = document.getElementById("pass").value;
 
-  if (game === "racing") {
-    alert("Loading Racing Game...");
-  }
+  if (!user || !pass) return alert("Fill all fields");
 
-  if (game === "battle") {
-    alert("Loading Battle Arena...");
+  localStorage.setItem("user_" + user, pass);
+  alert("Account created!");
+  window.location.href = "login.html";
+}
+
+function login() {
+  let user = document.getElementById("user").value;
+  let pass = document.getElementById("pass").value;
+
+  let saved = localStorage.getItem("user_" + user);
+
+  if (saved === pass) {
+    localStorage.setItem("currentUser", user);
+    alert("Login success!");
+    window.location.href = "index.html";
+  } else {
+    alert("Wrong username or password");
   }
 }
 
-function editProfile() {
-  let name = prompt("Enter your new name:");
-  if (name) {
-    localStorage.setItem("username", name);
-    alert("Profile updated!");
-  }
+function logout() {
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
 }
 
-function resetProfile() {
-  localStorage.clear();
-  alert("Profile reset!");
+// ---------- USER ----------
+function getUser() {
+  return localStorage.getItem("currentUser");
 }
 
-function getUsername() {
-  return localStorage.getItem("username");
+// ---------- GAME SYSTEM ----------
+function openGame(name) {
+  alert("Loading " + name + "...");
 }
