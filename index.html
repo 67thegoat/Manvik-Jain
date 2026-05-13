@@ -1,163 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Manvik Games</title>
-
-<style>
-
-body{
-  margin:0;
-  background:#121417;
-  color:white;
-  font-family:Arial;
-}
-
-header{
-  background:#1c1f24;
-  padding:15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.logo{
-  font-size:30px;
-  font-weight:bold;
-}
-
-nav a{
-  color:white;
-  text-decoration:none;
-  margin-left:20px;
-}
-
-.banner{
-  background:linear-gradient(to right,#00bfff,#0044ff);
-  padding:60px;
-  text-align:center;
-}
-
-.banner h1{
-  font-size:55px;
-}
-
-.games{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:20px;
-  padding:30px;
-}
-
-.card{
-  background:#1e2329;
-  border-radius:15px;
-  overflow:hidden;
-  transition:0.3s;
-}
-
-.card:hover{
-  transform:scale(1.05);
-}
-
-.card img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-}
-
-.card-content{
-  padding:15px;
-}
-
-.play-btn{
-  background:#00b06f;
-  color:white;
-  border:none;
-  padding:12px 20px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:16px;
-}
-
-.play-btn:hover{
-  background:#00d686;
-}
-
-footer{
-  text-align:center;
-  padding:20px;
-  color:gray;
-}
-
-</style>
+  <meta charset="UTF-8">
+  <title>Manvik Jain - Game Hub</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header>
-  <div class="logo">MANVIK GAMES</div>
+  <header>
+    <h1>🎮 Manvik Game Hub</h1>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Games</a>
+      <a href="#">Profile</a>
+    </nav>
+  </header>
 
-  <nav>
-  <a href="index.html">Home</a>
-  <a href="games.html">Games</a>
-  <a href="profile.html">Profile</a>
-</nav>
-</header>
+  <section class="hero">
+    <h2>Welcome to my 3D-style Game Website</h2>
+    <p>Click below to join games (demo)</p>
+    <button onclick="alert('Game launching soon!')">Play Now</button>
+  </section>
 
-<div class="banner">
-  <h1>Play Awesome Games</h1>
-  <p>Mini Roblox-style website made by Manvik</p>
-</div>
-
-<div class="games">
-
-  <div class="card">
-    <img src="https://picsum.photos/400/200?1">
-
-    <div class="card-content">
-      <h2>Obby Escape</h2>
-      <p>Jump through obstacles and win!</p>
-
-      <button class="play-btn"
-      onclick="location.href='obby.html'">
-      Play
-      </button>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="https://picsum.photos/400/200?2">
-
-    <div class="card-content">
-      <h2>Coin Clicker</h2>
-      <p>More games coming soon.</p>
-
-      <button class="play-btn"
-      onclick="alert('Coming Soon!')">
-      Play
-      </button>
-    </div>
-  </div>
-
-  <div class="card">
-    <img src="https://picsum.photos/400/200?3">
-
-    <div class="card-content">
-      <h2>Speed Race</h2>
-      <p>Race game coming soon.</p>
-
-      <button class="play-btn"
-      onclick="alert('Coming Soon!')">
-      Play
-      </button>
-    </div>
-  </div>
-
-</div>
-
-<footer>
-Made by Manvik using HTML, CSS & JavaScript
-</footer>
+  <section class="games">
+    <div class="card">🔥 Obby Parkour</div>
+    <div class="card">🏃 Racing Game</div>
+    <div class="card">⚔️ Battle Arena</div>
+  </section>
 
 </body>
 </html>
