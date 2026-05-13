@@ -1,48 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Profile</title>
-
-<style>
-body{
-  background:#121417;
-  color:white;
-  font-family:Arial;
-  text-align:center;
-}
-
-.profile{
-  background:#1e2329;
-  width:300px;
-  margin:auto;
-  margin-top:100px;
-  padding:30px;
-  border-radius:20px;
-}
-
-img{
-  border-radius:50%;
-}
-</style>
+  <title>Profile</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="profile">
+<header>
+  <h1>👤 Profile</h1>
 
-<img src="https://picsum.photos/150">
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="games.html">Games</a>
+    <a href="profile.html">Profile</a>
+  </nav>
+</header>
 
-<h1>Manvik</h1>
+<section class="hero">
+  <h2>Your Profile</h2>
 
-<p>Game Developer</p>
+  <p>Name: <span id="name"></span></p>
 
-<p>Welcome to my website!</p>
+  <button onclick="editProfile()">Edit Profile</button>
+  <button onclick="resetProfile()">Reset</button>
+</section>
 
-<a href="index.html">
-<button>Home</button>
-</a>
+<script src="script.js"></script>
 
-</div>
+<script>
+document.getElementById("name").innerText =
+  getUsername() || "Guest";
+</script>
 
 </body>
 </html>
