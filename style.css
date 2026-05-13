@@ -45,3 +45,26 @@ button {
   box-shadow: 0 0 15px rgba(255,255,255,0.1);
   transform: perspective(500px) rotateY(5deg);
 }
+nav a {
+  color: white;
+  margin: 10px;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  background: #ff3c3c;
+  transform: scale(1.1);
+}
+
+.card {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: perspective(500px) rotateY(0deg) scale(1.05);
+  background: #333;
+}
