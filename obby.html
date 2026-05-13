@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>3D Game</title>
+<title>3D Obby</title>
 
 <style>
 body{
@@ -32,58 +32,117 @@ window.innerWidth/window.innerHeight,
 1000
 );
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({
+antialias:true
+});
 
 renderer.setSize(window.innerWidth,window.innerHeight);
+
+renderer.shadowMap.enabled = true;
 
 document.body.appendChild(renderer.domElement);
 
 const light = new THREE.DirectionalLight(0xffffff,1);
 
-light.position.set(5,10,7);
+light.position.set(10,20,10);
+
+light.castShadow = true;
 
 scene.add(light);
 
-const floorGeometry = new THREE.BoxGeometry(20,1,20);
+const ambient = new THREE.AmbientLight(0xffffff,0.4);
 
-const floorMaterial = new THREE.MeshStandardMaterial({
+scene.add(ambient);
+
+const floorGeo = new THREE.BoxGeometry(50,1,50);
+
+const floorMat = new THREE.MeshStandardMaterial({
 color:0x00aa00
 });
 
-const floor = new THREE.Mesh(
-floorGeometry,
-floorMaterial
-);
+const floor = new THREE.Mesh(floorGeo,floorMat);
 
-floor.position.y=-1;
+floor.receiveShadow = true;
+
+floor.position.y = -1;
 
 scene.add(floor);
 
-const playerGeometry = new THREE.BoxGeometry(1,1,1);
+const playerGeo = new THREE.BoxGeometry(1,2,1);
 
-const playerMaterial = new THREE.MeshStandardMaterial({
+const playerMat = new THREE.MeshStandardMaterial({
 color:0xff0000
 });
 
-const player = new THREE.Mesh(
-playerGeometry,
-playerMaterial
-);
+const player = new THREE.Mesh(playerGeo,playerMat);
+
+player.castShadow = true;
+
+player.position.y = 1;
 
 scene.add(player);
 
-camera.position.z=5;
-camera.position.y=3;
+function createPlatform(x,y,z,color){
 
-document.addEventListener('keydown',(e)=>{
+  const geo = new THREE.BoxGeometry(4,1,4);
 
-  if(e.key=="ArrowUp") player.position.z-=0.3;
+  const mat = new THREE.MeshStandardMaterial({
+    color:color
+  });
 
-  if(e.key=="ArrowDown") player.position.z+=0.3;
+  const block = new THREE.Mesh(geo,mat);
 
-  if(e.key=="ArrowLeft") player.position.x-=0.3;
+  block.position.set(x,y,z);
 
-  if(e.key=="ArrowRight") player.position.x+=0.3;
+  block.castShadow = true;
+
+  block.receiveShadow = true;
+
+  scene.add(block);
+
+}
+
+createPlatform(5,0,-5,0x333333);
+createPlatform(10,2,-10,0x4444ff);
+createPlatform(15,4,-15,0xffaa00);
+createPlatform(20,6,-20,0xff00ff);
+
+const goalGeo = new THREE.BoxGeometry(3,3,3);
+
+const goalMat = new THREE.MeshStandardMaterial({
+color:0xffff00,
+emissive:0xffff00
+});
+
+const goal = new THREE.Mesh(goalGeo,goalMat);
+
+goal.position.set(25,8,-25);
+
+scene.add(goal);
+
+let velocityY = 0;
+
+let onGround = false;
+
+const keys = {};
+
+document.addEventListener("keydown",(e)=>{
+
+  keys[e.key] = true;
+
+  if(e.code=="Space" && onGround){
+
+    velocityY = 0.25;
+
+    onGround = false;
+
+  }
+
+});
+
+document.addEventListener("keyup",(e)=>{
+
+  keys[e.key] = false;
 
 });
 
@@ -91,11 +150,47 @@ function animate(){
 
   requestAnimationFrame(animate);
 
+  if(keys["w"] || keys["ArrowUp"])
+    player.position.z -= 0.15;
+
+  if(keys["s"] || keys["ArrowDown"])
+    player.position.z += 0.15;
+
+  if(keys["a"] || keys["ArrowLeft"])
+    player.position.x -= 0.15;
+
+  if(keys["d"] || keys["ArrowRight"])
+    player.position.x += 0.15;
+
+  velocityY -= 0.01;
+
+  player.position.y += velocityY;
+
+  if(player.position.y <= 1){
+
+    player.position.y = 1;
+
+    velocityY = 0;
+
+    onGround = true;
+
+  }
+
   camera.position.x = player.position.x;
 
-  camera.position.z = player.position.z + 5;
+  camera.position.y = player.position.y + 5;
+
+  camera.position.z = player.position.z + 10;
 
   camera.lookAt(player.position);
+
+  if(player.position.distanceTo(goal.position) < 3){
+
+    alert("YOU WIN!");
+
+    player.position.set(0,1,0);
+
+  }
 
   renderer.render(scene,camera);
 
