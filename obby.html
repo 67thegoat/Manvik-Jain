@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Obby Escape</title>
+
+<style>
+body{
+  margin:0;
+  overflow:hidden;
+  background:#87ceeb;
+}
+
+#player{
+  width:50px;
+  height:50px;
+  background:red;
+  position:absolute;
+  left:50px;
+  top:300px;
+}
+
+.platform{
+  position:absolute;
+  background:black;
+}
+
+#goal{
+  width:60px;
+  height:60px;
+  background:gold;
+  position:absolute;
+  left:700px;
+  top:120px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="player"></div>
+
+<div class="platform"
+style="width:200px;height:20px;left:0px;top:350px;">
+</div>
+
+<div class="platform"
+style="width:150px;height:20px;left:250px;top:280px;">
+</div>
+
+<div class="platform"
+style="width:150px;height:20px;left:500px;top:200px;">
+</div>
+
+<div id="goal"></div>
+
+<script>
+let player = document.getElementById("player");
+
+let x = 50;
+let y = 300;
+
+document.addEventListener("keydown",(e)=>{
+
+  if(e.key=="ArrowRight") x+=20;
+  if(e.key=="ArrowLeft") x-=20;
+  if(e.key=="ArrowUp") y-=20;
+  if(e.key=="ArrowDown") y+=20;
+
+  player.style.left=x+"px";
+  player.style.top=y+"px";
+
+  if(x>650 && y<170){
+    alert("YOU WIN!");
+  }
+
+});
+</script>
+
+</body>
+</html>
