@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Profile</title>
   <link rel="stylesheet" href="style.css">
@@ -8,6 +9,7 @@
 <body>
 
 <header>
+
   <h1>👤 Profile</h1>
 
   <nav>
@@ -15,23 +17,26 @@
     <a href="games.html">Games</a>
     <a href="profile.html">Profile</a>
   </nav>
+
 </header>
 
-<h2 id="name"></h2>
+<h2 id="profileName"></h2>
 
 <button onclick="logout()">Logout</button>
 
 <script src="script.js"></script>
 
 <script>
+
 let user = getUser();
 
 if (!user) {
   window.location.href = "login.html";
 } else {
-  document.getElementById("name").innerText =
+  document.getElementById("profileName").innerText =
     "Player: " + user;
 }
+
 </script>
 
 </body>
