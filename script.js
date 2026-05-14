@@ -1,11 +1,16 @@
 // ---------- AUTH SYSTEM ----------
+
 function register() {
   let user = document.getElementById("user").value;
   let pass = document.getElementById("pass").value;
 
-  if (!user || !pass) return alert("Fill all fields");
+  if (!user || !pass) {
+    alert("Fill all fields");
+    return;
+  }
 
   localStorage.setItem("user_" + user, pass);
+
   alert("Account created!");
   window.location.href = "login.html";
 }
@@ -14,11 +19,13 @@ function login() {
   let user = document.getElementById("user").value;
   let pass = document.getElementById("pass").value;
 
-  let saved = localStorage.getItem("user_" + user);
+  let savedPass = localStorage.getItem("user_" + user);
 
-  if (saved === pass) {
+  if (savedPass === pass) {
     localStorage.setItem("currentUser", user);
-    alert("Login success!");
+
+    alert("Login successful!");
+
     window.location.href = "index.html";
   } else {
     alert("Wrong username or password");
@@ -30,12 +37,24 @@ function logout() {
   window.location.href = "login.html";
 }
 
-// ---------- USER ----------
 function getUser() {
   return localStorage.getItem("currentUser");
 }
 
 // ---------- GAME SYSTEM ----------
+
 function openGame(name) {
-  alert("Loading " + name + "...");
+
+  if (name === "Obby") {
+    window.location.href = "obby.html";
+  }
+
+  if (name === "Racing") {
+    window.location.href = "racing.html";
+  }
+
+  if (name === "Battle") {
+    window.location.href = "battle.html";
+  }
+
 }
