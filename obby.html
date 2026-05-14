@@ -2,15 +2,196 @@
 <html>
 
 <head>
-  <title>Obby Game</title>
+  <title>3D Obby</title>
   <link rel="stylesheet" href="style.css">
+
+  <style>
+
+    body {
+      overflow: hidden;
+    }
+
+    #gameArea {
+      position: relative;
+      width: 100vw;
+      height: 80vh;
+      background:
+        linear-gradient(#6ec6ff, #bfe9ff);
+      overflow: hidden;
+    }
+
+    /* FLOOR */
+
+    #floor {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 180px;
+
+      background:
+      repeating-linear-gradient(
+        90deg,
+        #45aa45 0px,
+        #45aa45 50px,
+        #4db84d 50px,
+        #4db84d 100px
+      );
+
+      transform: perspective(800px)
+      rotateX(70deg);
+
+      transform-origin: bottom;
+    }
+
+    /* ROBLOX BACON STYLE */
+
+    #player {
+      position: absolute;
+
+      width: 60px;
+      height: 120px;
+
+      left: 100px;
+      bottom: 120px;
+    }
+
+    /* HEAD */
+
+    .head {
+      position: absolute;
+
+      width: 45px;
+      height: 45px;
+
+      background: #ffd7b5;
+
+      border-radius: 8px;
+
+      left: 7px;
+      top: 0;
+
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+    }
+
+    /* BACON HAIR */
+
+    .hair {
+      position: absolute;
+
+      width: 45px;
+      height: 18px;
+
+      background:
+      repeating-linear-gradient(
+        90deg,
+        #b85c2d,
+        #d67b3c 10px
+      );
+
+      border-radius: 8px 8px 0 0;
+    }
+
+    /* BODY */
+
+    .body {
+      position: absolute;
+
+      width: 55px;
+      height: 50px;
+
+      background: #2e8bff;
+
+      top: 45px;
+
+      border-radius: 6px;
+    }
+
+    /* ARMS */
+
+    .arm1,
+    .arm2 {
+      position: absolute;
+
+      width: 14px;
+      height: 45px;
+
+      background: #ffd7b5;
+
+      top: 48px;
+    }
+
+    .arm1 {
+      left: -12px;
+    }
+
+    .arm2 {
+      right: -12px;
+    }
+
+    /* LEGS */
+
+    .leg1,
+    .leg2 {
+      position: absolute;
+
+      width: 18px;
+      height: 45px;
+
+      background: #2244aa;
+
+      top: 95px;
+    }
+
+    .leg1 {
+      left: 8px;
+    }
+
+    .leg2 {
+      right: 8px;
+    }
+
+    /* GOAL */
+
+    #goal {
+      position: absolute;
+
+      width: 90px;
+      height: 90px;
+
+      background: lime;
+
+      right: 120px;
+      bottom: 130px;
+
+      border-radius: 10px;
+
+      box-shadow:
+      0 0 20px lime;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 700px) {
+
+      #player {
+        transform: scale(0.8);
+      }
+
+      #goal {
+        width: 70px;
+        height: 70px;
+      }
+
+    }
+
+  </style>
 </head>
 
 <body>
 
 <header>
 
-  <h1>🔥 Obby Parkour</h1>
+  <h1>🔥 3D Roblox Obby</h1>
 
   <nav>
     <a href="index.html">Home</a>
@@ -20,14 +201,88 @@
 
 </header>
 
-<h2>🏃 Jump and survive!</h2>
+<h2>Use Arrow Keys To Reach Goal</h2>
 
-<button onclick="startGame()">Start Game</button>
+<div id="gameArea">
+
+  <div id="floor"></div>
+
+  <!-- PLAYER -->
+  <div id="player">
+
+    <div class="head">
+      <div class="hair"></div>
+    </div>
+
+    <div class="body"></div>
+
+    <div class="arm1"></div>
+    <div class="arm2"></div>
+
+    <div class="leg1"></div>
+    <div class="leg2"></div>
+
+  </div>
+
+  <!-- GOAL -->
+  <div id="goal"></div>
+
+</div>
 
 <script>
 
-function startGame() {
-  alert("Obby starting...");
+const player = document.getElementById("player");
+const goal = document.getElementById("goal");
+
+let x = 100;
+let y = 120;
+
+const speed = 8;
+
+document.addEventListener("keydown", move);
+
+function move(e) {
+
+  if (e.key === "ArrowRight") x += speed;
+  if (e.key === "ArrowLeft") x -= speed;
+  if (e.key === "ArrowUp") y += speed;
+  if (e.key === "ArrowDown") y -= speed;
+
+  // LIMITS
+  if (x < 0) x = 0;
+  if (x > window.innerWidth - 100)
+    x = window.innerWidth - 100;
+
+  if (y < 80) y = 80;
+  if (y > 300) y = 300;
+
+  player.style.left = x + "px";
+  player.style.bottom = y + "px";
+
+  checkWin();
+}
+
+function checkWin() {
+
+  const playerRect = player.getBoundingClientRect();
+  const goalRect = goal.getBoundingClientRect();
+
+  if (
+    playerRect.left < goalRect.right &&
+    playerRect.right > goalRect.left &&
+    playerRect.top < goalRect.bottom &&
+    playerRect.bottom > goalRect.top
+  ) {
+
+    alert("🎉 YOU WON!");
+
+    x = 100;
+    y = 120;
+
+    player.style.left = x + "px";
+    player.style.bottom = y + "px";
+  }
+
 }
 
 </script>
