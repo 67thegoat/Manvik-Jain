@@ -85,3 +85,17 @@ button {
     width: 220px;
   }
 }
+.card h3 {
+  margin-top: 0;
+}
+
+.card p {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  background: #333;
+  transition: 0.3s;
+}
