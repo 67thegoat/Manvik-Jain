@@ -3,185 +3,25 @@
 
 <head>
   <title>3D Obby</title>
-  <link rel="stylesheet" href="style.css">
 
   <style>
 
     body {
+      margin: 0;
       overflow: hidden;
+      background: skyblue;
+      font-family: Arial;
     }
 
-    #gameArea {
-      position: relative;
-      width: 100vw;
-      height: 80vh;
-      background:
-        linear-gradient(#6ec6ff, #bfe9ff);
-      overflow: hidden;
-    }
-
-    /* FLOOR */
-
-    #floor {
+    #ui {
       position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 180px;
-
-      background:
-      repeating-linear-gradient(
-        90deg,
-        #45aa45 0px,
-        #45aa45 50px,
-        #4db84d 50px,
-        #4db84d 100px
-      );
-
-      transform: perspective(800px)
-      rotateX(70deg);
-
-      transform-origin: bottom;
-    }
-
-    /* ROBLOX BACON STYLE */
-
-    #player {
-      position: absolute;
-
-      width: 60px;
-      height: 120px;
-
-      left: 100px;
-      bottom: 120px;
-    }
-
-    /* HEAD */
-
-    .head {
-      position: absolute;
-
-      width: 45px;
-      height: 45px;
-
-      background: #ffd7b5;
-
-      border-radius: 8px;
-
-      left: 7px;
-      top: 0;
-
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
-    }
-
-    /* BACON HAIR */
-
-    .hair {
-      position: absolute;
-
-      width: 45px;
-      height: 18px;
-
-      background:
-      repeating-linear-gradient(
-        90deg,
-        #b85c2d,
-        #d67b3c 10px
-      );
-
-      border-radius: 8px 8px 0 0;
-    }
-
-    /* BODY */
-
-    .body {
-      position: absolute;
-
-      width: 55px;
-      height: 50px;
-
-      background: #2e8bff;
-
-      top: 45px;
-
-      border-radius: 6px;
-    }
-
-    /* ARMS */
-
-    .arm1,
-    .arm2 {
-      position: absolute;
-
-      width: 14px;
-      height: 45px;
-
-      background: #ffd7b5;
-
-      top: 48px;
-    }
-
-    .arm1 {
-      left: -12px;
-    }
-
-    .arm2 {
-      right: -12px;
-    }
-
-    /* LEGS */
-
-    .leg1,
-    .leg2 {
-      position: absolute;
-
-      width: 18px;
-      height: 45px;
-
-      background: #2244aa;
-
-      top: 95px;
-    }
-
-    .leg1 {
-      left: 8px;
-    }
-
-    .leg2 {
-      right: 8px;
-    }
-
-    /* GOAL */
-
-    #goal {
-      position: absolute;
-
-      width: 90px;
-      height: 90px;
-
-      background: lime;
-
-      right: 120px;
-      bottom: 130px;
-
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
       border-radius: 10px;
-
-      box-shadow:
-      0 0 20px lime;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 700px) {
-
-      #player {
-        transform: scale(0.8);
-      }
-
-      #goal {
-        width: 70px;
-        height: 70px;
-      }
-
     }
 
   </style>
@@ -189,101 +29,256 @@
 
 <body>
 
-<header>
-
-  <h1>🔥 3D Roblox Obby</h1>
-
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="games.html">Games</a>
-    <a href="profile.html">Profile</a>
-  </nav>
-
-</header>
-
-<h2>Use Arrow Keys To Reach Goal</h2>
-
-<div id="gameArea">
-
-  <div id="floor"></div>
-
-  <!-- PLAYER -->
-  <div id="player">
-
-    <div class="head">
-      <div class="hair"></div>
-    </div>
-
-    <div class="body"></div>
-
-    <div class="arm1"></div>
-    <div class="arm2"></div>
-
-    <div class="leg1"></div>
-    <div class="leg2"></div>
-
-  </div>
-
-  <!-- GOAL -->
-  <div id="goal"></div>
-
+<div id="ui">
+  🎮 Roblox Style 3D Obby<br>
+  Use WASD Keys
 </div>
+
+<!-- THREE.JS -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
 <script>
 
-const player = document.getElementById("player");
-const goal = document.getElementById("goal");
+// ============================
+// SCENE
+// ============================
 
-let x = 100;
-let y = 120;
+const scene = new THREE.Scene();
 
-const speed = 8;
+scene.background = new THREE.Color(0x87ceeb);
 
-document.addEventListener("keydown", move);
+// ============================
+// CAMERA
+// ============================
 
-function move(e) {
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
 
-  if (e.key === "ArrowRight") x += speed;
-  if (e.key === "ArrowLeft") x -= speed;
-  if (e.key === "ArrowUp") y += speed;
-  if (e.key === "ArrowDown") y -= speed;
+camera.position.set(0, 6, 10);
 
-  // LIMITS
-  if (x < 0) x = 0;
-  if (x > window.innerWidth - 100)
-    x = window.innerWidth - 100;
+// ============================
+// RENDERER
+// ============================
 
-  if (y < 80) y = 80;
-  if (y > 300) y = 300;
+const renderer = new THREE.WebGLRenderer({
+  antialias: true
+});
 
-  player.style.left = x + "px";
-  player.style.bottom = y + "px";
+renderer.setSize(
+  window.innerWidth,
+  window.innerHeight
+);
 
-  checkWin();
-}
+document.body.appendChild(renderer.domElement);
 
-function checkWin() {
+// ============================
+// LIGHT
+// ============================
 
-  const playerRect = player.getBoundingClientRect();
-  const goalRect = goal.getBoundingClientRect();
+const light = new THREE.DirectionalLight(0xffffff, 1);
 
-  if (
-    playerRect.left < goalRect.right &&
-    playerRect.right > goalRect.left &&
-    playerRect.top < goalRect.bottom &&
-    playerRect.bottom > goalRect.top
-  ) {
+light.position.set(5, 10, 7);
 
-    alert("🎉 YOU WON!");
+scene.add(light);
 
-    x = 100;
-    y = 120;
+const ambient = new THREE.AmbientLight(0xffffff, 0.5);
 
-    player.style.left = x + "px";
-    player.style.bottom = y + "px";
+scene.add(ambient);
+
+// ============================
+// FLOOR
+// ============================
+
+const floorGeo = new THREE.BoxGeometry(50, 1, 50);
+
+const floorMat = new THREE.MeshStandardMaterial({
+  color: 0x44aa44
+});
+
+const floor = new THREE.Mesh(
+  floorGeo,
+  floorMat
+);
+
+floor.position.y = -1;
+
+scene.add(floor);
+
+// ============================
+// ROBLOX BACON CHARACTER
+// ============================
+
+const player = new THREE.Group();
+
+// BODY
+const bodyGeo = new THREE.BoxGeometry(1.5, 2, 1);
+
+const bodyMat = new THREE.MeshStandardMaterial({
+  color: 0x2e8bff
+});
+
+const body = new THREE.Mesh(bodyGeo, bodyMat);
+
+body.position.y = 1.5;
+
+player.add(body);
+
+// HEAD
+const headGeo = new THREE.BoxGeometry(1.2, 1.2, 1.2);
+
+const headMat = new THREE.MeshStandardMaterial({
+  color: 0xffd7b5
+});
+
+const head = new THREE.Mesh(headGeo, headMat);
+
+head.position.y = 3.2;
+
+player.add(head);
+
+// BACON HAIR
+const hairGeo = new THREE.BoxGeometry(1.3, 0.4, 1.3);
+
+const hairMat = new THREE.MeshStandardMaterial({
+  color: 0xb85c2d
+});
+
+const hair = new THREE.Mesh(hairGeo, hairMat);
+
+hair.position.y = 3.7;
+
+player.add(hair);
+
+// LEGS
+const legGeo = new THREE.BoxGeometry(0.5, 1.5, 0.5);
+
+const legMat = new THREE.MeshStandardMaterial({
+  color: 0x2233aa
+});
+
+const leg1 = new THREE.Mesh(legGeo, legMat);
+leg1.position.set(-0.4, 0, 0);
+
+const leg2 = new THREE.Mesh(legGeo, legMat);
+leg2.position.set(0.4, 0, 0);
+
+player.add(leg1);
+player.add(leg2);
+
+// ARMS
+const armGeo = new THREE.BoxGeometry(0.4, 1.5, 0.4);
+
+const armMat = new THREE.MeshStandardMaterial({
+  color: 0xffd7b5
+});
+
+const arm1 = new THREE.Mesh(armGeo, armMat);
+arm1.position.set(-1.1, 1.5, 0);
+
+const arm2 = new THREE.Mesh(armGeo, armMat);
+arm2.position.set(1.1, 1.5, 0);
+
+player.add(arm1);
+player.add(arm2);
+
+// PLAYER POSITION
+player.position.y = 0;
+
+scene.add(player);
+
+// ============================
+// GOAL
+// ============================
+
+const goalGeo = new THREE.BoxGeometry(2,2,2);
+
+const goalMat = new THREE.MeshStandardMaterial({
+  color: 0x00ff00,
+  emissive: 0x00ff00
+});
+
+const goal = new THREE.Mesh(goalGeo, goalMat);
+
+goal.position.set(10,1,0);
+
+scene.add(goal);
+
+// ============================
+// CONTROLS
+// ============================
+
+const keys = {};
+
+document.addEventListener("keydown", e => {
+  keys[e.key.toLowerCase()] = true;
+});
+
+document.addEventListener("keyup", e => {
+  keys[e.key.toLowerCase()] = false;
+});
+
+// ============================
+// GAME LOOP
+// ============================
+
+function animate() {
+
+  requestAnimationFrame(animate);
+
+  // MOVEMENT
+  if (keys["w"]) player.position.z -= 0.1;
+  if (keys["s"]) player.position.z += 0.1;
+  if (keys["a"]) player.position.x -= 0.1;
+  if (keys["d"]) player.position.x += 0.1;
+
+  // CAMERA FOLLOW
+  camera.position.x = player.position.x;
+  camera.position.z = player.position.z + 10;
+
+  camera.lookAt(player.position);
+
+  // WIN
+  const dx =
+    player.position.x - goal.position.x;
+
+  const dz =
+    player.position.z - goal.position.z;
+
+  const dist = Math.sqrt(dx*dx + dz*dz);
+
+  if (dist < 2) {
+
+    alert("🎉 YOU WIN!");
+
+    player.position.set(0,0,0);
   }
 
+  renderer.render(scene, camera);
 }
+
+animate();
+
+// ============================
+// RESIZE
+// ============================
+
+window.addEventListener("resize", () => {
+
+  camera.aspect =
+    window.innerWidth / window.innerHeight;
+
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+  );
+
+});
 
 </script>
 
